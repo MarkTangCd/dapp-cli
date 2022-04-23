@@ -1,0 +1,37 @@
+{
+  "name": "@dapp-cli/cli",
+  "version": "0.0.1",
+  "description": "dapp-cli core",
+  "author": "",
+  "license": "ISC",
+  "main": "",
+  "bin": {
+    "dapp": "bin/index.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@dapp-cli/log": "file:../../utils/log",
+    "colors": "^1.4.0",
+    "import-local": "^3.1.0",
+    "minimist": "^1.2.6",
+    "npmlog": "^6.0.2",
+    "path-exists": "4.0.0",
+    "root-check": "1.0.0",
+    "semver": "^7.3.7",
+    "user-home": "^3.0.0"
+  },
+  "gitHead": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": []
+}
