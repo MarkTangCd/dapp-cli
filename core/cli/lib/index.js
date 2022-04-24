@@ -12,9 +12,9 @@ const log = require('@dapp-cli/log');
 const pkg = require('../package.json');
 const constant = require('./const');
 
-let args, config;
+let args;
 
-function core() {
+async function core() {
   try {
     checkPkgVersion();
     checkNodeVersion();
@@ -22,8 +22,23 @@ function core() {
     checkUserHome();
     checkInputArgs();
     checkEnv();
+    await checkGlobalUpdate();
   } catch (e) {
     log.error(e.message);
+  }
+}
+
+async function checkGlobalUpdate() {
+  // 1. get current version no and the module name.
+  // 2. call npm api, get all version no.
+  // 3. compare version no.
+  // 4. get latest version no and notice the user to update to latest version.
+  const currentVersion = pkg.version;
+  const npmName = pkg.name;
+  const { getNpmSemverVersion } = require('@dapp-cli/get-npm-info');
+  const lastVersion = await getNpmSemverVersion(currentVersion, npmName);
+  if (lastVersion && semver.gt(lastVersion, currentVersion)) {
+    log.warn('Notice', colors.yellow(`Please manually update ${npmName} to the latest version ${lastVersion}.`));
   }
 }
 
@@ -31,12 +46,12 @@ function checkEnv() {
   const dotenv = require('dotenv');
   const dotenvPath = path.resolve(userHome, '.env');
   if (pathExists(dotenvPath)) {
-    config = dotenv.config({
+    dotenv.config({
       path: path.resolve(userHome, '.env')
     });
   }
   createDefaultConfig();
-  log.verbose('环境变量', process.env.CLI_HOME_PATH);
+  log.verbose('Env', process.env.CLI_HOME_PATH);
 }
 
 function createDefaultConfig() {

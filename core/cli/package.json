@@ -1,6 +1,6 @@
 {
-  "name": "@dapp-cli/cli",
-  "version": "0.0.1",
+  "name": "@imooc-cli/core",
+  "version": "1.0.4",
   "description": "dapp-cli core",
   "author": "",
   "license": "ISC",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@dapp-cli/log": "file:../../utils/log",
+    "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
     "colors": "^1.4.0",
     "dotenv": "^16.0.0",
     "import-local": "^3.1.0",
