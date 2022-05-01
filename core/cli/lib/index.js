@@ -6,13 +6,17 @@ const path = require('path');
 const semver = require('semver');
 const colors = require('colors');
 const pathExists = require('path-exists').sync;
+const commander = require('commander');
 const userHome = require('user-home');
 const log = require('@dapp-cli/log');
+const init = require('@dapp-cli/init');
 
 const pkg = require('../package.json');
 const constant = require('./const');
 
 let args;
+
+const program = new commander.Command();
 
 async function core() {
   try {
@@ -20,11 +24,51 @@ async function core() {
     checkNodeVersion();
     checkRoot();
     checkUserHome();
-    checkInputArgs();
+    // checkInputArgs();
     checkEnv();
-    await checkGlobalUpdate();
+    // await checkGlobalUpdate();
+    registerCommand();
   } catch (e) {
     log.error(e.message);
+  }
+}
+
+function registerCommand() {
+  program
+    .name(Object.keys(pkg.bin)[0])
+    .usage('<command> [options]')
+    .version(pkg.version)
+    .option('-d, --debug', 'Is debug mode on?', false);
+
+  program
+    .command('init [projectName]')
+    .option('-f, --force', 'Does it force the directory to be overwritten for initialization?')
+    .action(init);
+  
+  program.on('option:debug', function() {
+    const options = program.opts();
+    if (options.debug) {
+      process.env.LOG_LEVEL = 'verbose';
+    } else {
+      process.env.LOG_LEVEL = 'info';
+    }
+    log.level = process.env.LOG_LEVEL;
+  });
+
+  // 对未知命令的监听
+  program.on('command:*', function(obj) {
+    const availableCommands = program.commands.map(cmd => cmd.name());
+    console.log('Unknown command:' + obj[0]);
+    if (availableCommands.length > 0) {
+      console.log('Available commands：' + availableCommands.join(','));
+    }
+  });
+
+  program.parse(process.argv);
+
+  if (program.args && program.args.length < 1) {
+    program.outputHelp();
+    console.log();
   }
 }
 
@@ -69,7 +113,6 @@ function createDefaultConfig() {
 function checkInputArgs() {
   const minimist = require('minimist');
   args = minimist(process.argv.slice(2));
-  console.log(args);
   checkArgs();
 }
 
@@ -91,7 +134,6 @@ function checkUserHome() {
 function checkRoot() {
   const rootCheck = require('root-check');
   rootCheck();
-  console.log(process.geteuid());
 }
 
 function checkNodeVersion() {

@@ -1,8 +1,8 @@
 {
-  "name": "@imooc-cli/core",
+  "name": "@dapp-cli/cli",
   "version": "1.0.4",
   "description": "dapp-cli core",
-  "author": "",
+  "author": "MarkTang <MarkTangCd@hotmail.com>",
   "license": "ISC",
   "main": "",
   "bin": {
@@ -19,9 +19,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@dapp-cli/log": "file:../../utils/log",
     "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
+    "@dapp-cli/log": "file:../../utils/log",
+    "@dapp-cli/init": "file:../../commands/init",
     "colors": "^1.4.0",
+    "commander": "^9.2.0",
     "dotenv": "^16.0.0",
     "import-local": "^3.1.0",
     "minimist": "^1.2.6",
