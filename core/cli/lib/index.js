@@ -10,23 +10,16 @@ const commander = require('commander');
 const userHome = require('user-home');
 const log = require('@dapp-cli/log');
 const init = require('@dapp-cli/init');
+const exec = require('@dapp-cli/exec');
 
 const pkg = require('../package.json');
 const constant = require('./const');
-
-let args;
 
 const program = new commander.Command();
 
 async function core() {
   try {
-    checkPkgVersion();
-    checkNodeVersion();
-    checkRoot();
-    checkUserHome();
-    // checkInputArgs();
-    checkEnv();
-    // await checkGlobalUpdate();
+    await prepare();
     registerCommand();
   } catch (e) {
     log.error(e.message);
@@ -38,13 +31,15 @@ function registerCommand() {
     .name(Object.keys(pkg.bin)[0])
     .usage('<command> [options]')
     .version(pkg.version)
-    .option('-d, --debug', 'Is debug mode on?', false);
+    .option('-d, --debug', 'Is debug mode on?', false)
+    .option('-tp, --targetPath <targetPath>', 'Is the local debug file path specified?', '');
 
   program
     .command('init [projectName]')
     .option('-f, --force', 'Does it force the directory to be overwritten for initialization?')
-    .action(init);
+    .action(exec);
   
+  // debug mode
   program.on('option:debug', function() {
     const options = program.opts();
     if (options.debug) {
@@ -55,7 +50,13 @@ function registerCommand() {
     log.level = process.env.LOG_LEVEL;
   });
 
-  // 对未知命令的监听
+  // targetPath
+  program.on('option:targetPath', function() {
+    const options = program.opts();
+    process.env.CLI_TARGET_PATH = options.targetPath;
+  });
+
+  // Listening for unknown commands
   program.on('command:*', function(obj) {
     const availableCommands = program.commands.map(cmd => cmd.name());
     console.log('Unknown command:' + obj[0]);
@@ -70,6 +71,15 @@ function registerCommand() {
     program.outputHelp();
     console.log();
   }
+}
+
+async function prepare() {
+    checkPkgVersion();
+    checkNodeVersion();
+    checkRoot();
+    checkUserHome();
+    checkEnv();
+    //await checkGlobalUpdate();
 }
 
 async function checkGlobalUpdate() {
@@ -95,7 +105,6 @@ function checkEnv() {
     });
   }
   createDefaultConfig();
-  log.verbose('Env', process.env.CLI_HOME_PATH);
 }
 
 function createDefaultConfig() {
@@ -108,21 +117,6 @@ function createDefaultConfig() {
     cliConfig['cliHome'] = path.join(userHome, constant.DEFAULT_CLI_HOME);
   }
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
-}
-
-function checkInputArgs() {
-  const minimist = require('minimist');
-  args = minimist(process.argv.slice(2));
-  checkArgs();
-}
-
-function checkArgs() {
-  if (args.debug) {
-    process.env.LOG_LEVEL = 'verbose';
-  } else {
-    process.env.LOG_LEVEL = 'info';
-  }
-  log.level = process.env.LOG_LEVEL;
 }
 
 function checkUserHome() {

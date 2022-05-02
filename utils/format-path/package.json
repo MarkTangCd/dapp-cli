@@ -1,7 +1,7 @@
 {
-  "name": "@dapp-cli/utils",
+  "name": "@dapp-cli/format-path",
   "version": "0.0.1",
-  "description": "dapp-cli utils package",
+  "description": "format path",
   "author": "Mark Tang <MarkTangCd@hotmail.com>",
   "homepage": "https://github.com/MarkTangCd/dapp-cli#readme",
   "license": "ISC",

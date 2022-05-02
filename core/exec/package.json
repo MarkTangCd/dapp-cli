@@ -1,7 +1,7 @@
 {
-  "name": "@dapp-cli/utils",
+  "name": "@dapp-cli/exec",
   "version": "0.0.1",
-  "description": "dapp-cli utils package",
+  "description": "dapp-cli execute package",
   "author": "Mark Tang <MarkTangCd@hotmail.com>",
   "homepage": "https://github.com/MarkTangCd/dapp-cli#readme",
   "license": "ISC",
@@ -22,6 +22,10 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@dapp-cli/package": "file:../../models/package",
+    "@dapp-cli/log": "file:../../utils/log"
   },
   "bugs": {
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
