@@ -24,8 +24,10 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@dapp-cli/utils": "file:../../utils/utils",
     "@dapp-cli/format-path": "file:../../utils/format-path",
+    "@dapp-cli/utils": "file:../../utils/utils",
+    "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
+    "npminstall": "^6.1.0",
     "pkg-dir": "^5.0.0"
   },
   "bugs": {
