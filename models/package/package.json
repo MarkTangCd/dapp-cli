@@ -25,9 +25,11 @@
   },
   "dependencies": {
     "@dapp-cli/format-path": "file:../../utils/format-path",
-    "@dapp-cli/utils": "file:../../utils/utils",
     "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
+    "@dapp-cli/utils": "file:../../utils/utils",
+    "fs-extra": "^10.1.0",
     "npminstall": "^6.1.0",
+    "path-exists": "^4.0.0",
     "pkg-dir": "^5.0.0"
   },
   "bugs": {
