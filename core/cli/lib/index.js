@@ -9,7 +9,6 @@ const pathExists = require('path-exists').sync;
 const commander = require('commander');
 const userHome = require('user-home');
 const log = require('@dapp-cli/log');
-const init = require('@dapp-cli/init');
 const exec = require('@dapp-cli/exec');
 
 const pkg = require('../package.json');
@@ -78,7 +77,6 @@ function registerCommand() {
 
 async function prepare() {
     checkPkgVersion();
-    checkNodeVersion();
     checkRoot();
     checkUserHome();
     checkEnv();
@@ -131,16 +129,6 @@ function checkUserHome() {
 function checkRoot() {
   const rootCheck = require('root-check');
   rootCheck();
-}
-
-function checkNodeVersion() {
-  // step1 get current node version no.
-  const currentVersion = process.version;
-  // step2 compare version no
-  const lowestVersion = constant.LOWEST_NODE_VERSION;
-  if (!semver.gte(currentVersion, lowestVersion)) {
-    throw new Error(colors.red(`dapp-cli requires Node.js version v${lowestVersion} or higher to be installed.`));
-  }
 }
 
 function checkPkgVersion() {

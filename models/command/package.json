@@ -1,7 +1,7 @@
 {
-  "name": "@dapp-cli/init",
+  "name": "@dapp-cli/command",
   "version": "0.0.1",
-  "description": "dapp-cli init",
+  "description": "dapp-cli command",
   "author": "Mark Tang <MarkTangCd@hotmail.com>",
   "homepage": "https://github.com/MarkTangCd/dapp-cli#readme",
   "license": "ISC",
@@ -23,11 +23,12 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "dependencies": {
-    "@dapp-cli/command": "file:../../models/command",
-    "@dapp-cli/log": "file:../../utils/log"
-  },
   "bugs": {
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "semver": "^7.3.7",
+    "@dapp-cli/log": "file:../../utils/log"
   }
 }

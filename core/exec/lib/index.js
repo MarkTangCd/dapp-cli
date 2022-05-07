@@ -1,11 +1,13 @@
 'use strict';
 
+const cp = require('child_process');
 const path = require('path');
 const Package = require('@dapp-cli/package');
 const log = require('@dapp-cli/log');
 
 const SETTINGS = {
-  init: '@dapp-cli/init'
+  //init: '@dapp-cli/init'
+  init: '@imooc-cli/init'
 };
 
 const CACHE_DIR = 'dependencies';
@@ -50,13 +52,50 @@ async function exec() {
   }
   const rootFile = pkg.getRootFilePath();
   if (rootFile) {
-    require(rootFile).apply(null, arguments);
+    try {
+      const args = Array.from(arguments);
+      const cmd = args[args.length - 1];
+      const o = Object.create(null);
+      Object.keys(cmd).forEach(key => {
+        if (cmd.hasOwnProperty(key) &&
+          !key.startsWith('_') &&
+          key !== 'parent') {
+          o[key] = cmd[key];
+        }
+      });
+      args[args.length - 1] = o;
+      const code = `require('${rootFile}').call(null, ${JSON.stringify(args)})`;
+      const child = spawn('node', ['-e', code], {
+        cwd: process.cwd(),
+        stdio: 'inherit'
+      });
+      child.on('error', error => {
+        log.error(error.message);
+        process.exit(1);
+      });
+      child.on('exit', result => {
+        log.verbose('Command executed successfully:' + result);
+        process.exit(result);
+      });
+    } catch(e) {
+      log.error(e.message);
+    }
+    // child process
   }
   // 1. targetPath -> modulePath
   // 2. modulePath -> Package(npm module)
   // 3. Package.getRootFile(get the entry file)
   // 4. Package.update / Package.install
 
+}
+
+function spawn(command, args, options) {
+  const win32 = process.platform === 'win32';
+
+  const cmd = win32 ? 'cmd' : command;
+  const cmdArgs = win32 ? ['/c'].concat(command, args) : args;
+
+  return cp.spawn(cmd, cmdArgs, options || {});
 }
 
 module.exports = exec;
