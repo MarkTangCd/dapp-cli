@@ -3,8 +3,10 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const fse = require('fs-extra');
+const semver = require('semver');
 const Command = require('@dapp-cli/command');
 const log = require('@dapp-cli/log');
+const templates = require('./templates');
 
 const TYPE_PROJECT = 'project';
 const TYPE_COMPONENT = 'component';
@@ -19,14 +21,21 @@ class InitCommand extends Command {
 
   async exec() {
     try {
-      const ret = await this.prepare();
-      if (ret) {
+      const projectInfo = await this.prepare();
+      if (projectInfo) {
         // 2. Download template
+        log.verbose('projectInfo', projectInfo);
+        this.projectInfo = projectInfo;
+        this.downloadTemplate();
         // 3. Install template
       }
     } catch(e) {
       log.error(e.message);
     }
+  }
+
+  downloadTemplate() {
+    console.log(this.projectInfo, templates);
   }
 
   async prepare() {
@@ -62,7 +71,7 @@ class InitCommand extends Command {
   }
 
   async getProjectInfo() {
-    const projectInfo = {};
+    let projectInfo = {};
     const { type } = await inquirer.prompt({
       type: 'list',
       name: 'type',
@@ -79,13 +88,20 @@ class InitCommand extends Command {
     log.verbose('type', type);
 
     if (type === TYPE_PROJECT) {
-      const o = await inquirer.prompt([{
+      const project = await inquirer.prompt([{
         type: 'input',
         name: 'projectName',
         message: 'Please enter the project name',
         default: '',
         validate: function(v) {
-          return typeof v === 'string';
+          const done = this.async();
+          setTimeout(function () {
+            if (!/^[a-zA-Z]+([-][a-zA-Z][a-zA-Z0-9]*|[_][a-zA-Z][a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(v)) {
+              done('Please enter the project name in the correct format');
+              return;
+            }
+            done(null, true);
+          }, 0);
         },
         filter: function(v) {
           return v;
@@ -94,15 +110,29 @@ class InitCommand extends Command {
         type: 'input',
         name: 'projectVersion',
         message: 'Please enter the project version number',
-        default: '',
+        default: '1.0.0',
         validate: function(v) {
-          return typeof v === 'string';
+          const done = this.async();
+          setTimeout(function () {
+            if (!(!!semver.valid(v))) {
+              done('Please enter the project version number in the correct format');
+              return;
+            }
+            done(null, true);
+          }, 0);
         },
         filter: function(v) {
-          return v;
+          if (!!semver.valid(v)) {
+            return semver.valid(v);
+          } else {
+            return v;
+          }
         }
       }]);
-      console.log(o);
+      projectInfo = {
+        type,
+        ...project
+      }
     } else if (type === TYPE_COMPONENT) {
 
     }

@@ -27,7 +27,8 @@
     "@dapp-cli/command": "file:../../models/command",
     "@dapp-cli/log": "file:../../utils/log",
     "fs-extra": "^10.1.0",
-    "inquirer": "^8.2.4"
+    "inquirer": "^8.2.4",
+    "semver": "^7.3.7"
   },
   "bugs": {
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
