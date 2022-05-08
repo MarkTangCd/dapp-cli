@@ -6,8 +6,7 @@ const Package = require('@dapp-cli/package');
 const log = require('@dapp-cli/log');
 
 const SETTINGS = {
-  //init: '@dapp-cli/init'
-  init: '@imooc-cli/init'
+  init: '@dapp-cli/init'
 };
 
 const CACHE_DIR = 'dependencies';
