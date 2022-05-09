@@ -9,6 +9,7 @@ const userHome = require('user-home');
 const Command = require('@dapp-cli/command');
 const Package = require('@dapp-cli/package');
 const log = require('@dapp-cli/log');
+const { spinnerStart, sleep } = require('@dapp-cli/utils');
 const templates = require('./templates');
 
 const TYPE_PROJECT = 'project';
@@ -50,9 +51,27 @@ class InitCommand extends Command {
       packageVersion: version
     });
     if (! await templateNpm.exists()) {
-      await templateNpm.install();
+      const spinner = spinnerStart('Downloading the template...');
+      await sleep();
+      try {
+        await templateNpm.install();
+        log.success('Download template successfully');
+      } catch (e) {
+        throw e;
+      } finally {
+        spinner.stop(true);
+      }
     } else {
-      await templateNpm.update();
+      const spinner = spinnerStart('Updating the template...');
+      await sleep();
+      try {
+        await templateNpm.update();
+        log.success('Update template successfully');
+      } catch (e) {
+        throw e;
+      } finally {
+        spinner.stop(true);
+      }
     }
   }
 

@@ -25,5 +25,8 @@
   },
   "bugs": {
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
+  },
+  "dependencies": {
+    "cli-spinner": "^0.2.10"
   }
 }
