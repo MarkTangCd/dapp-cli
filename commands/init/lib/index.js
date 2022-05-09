@@ -35,7 +35,7 @@ class InitCommand extends Command {
   }
 
   downloadTemplate() {
-    console.log(this.projectInfo, templates);
+    console.log(this.projectInfo);
   }
 
   async prepare() {
@@ -70,6 +70,13 @@ class InitCommand extends Command {
     return this.getProjectInfo();
   }
 
+  createTemplateChoice() {
+    return templates.map(item => ({
+      value: item.npmName,
+      name: item.name
+    }));
+  }
+
   async getProjectInfo() {
     let projectInfo = {};
     const { type } = await inquirer.prompt({
@@ -92,7 +99,6 @@ class InitCommand extends Command {
         type: 'input',
         name: 'projectName',
         message: 'Please enter the project name',
-        default: '',
         validate: function(v) {
           const done = this.async();
           setTimeout(function () {
@@ -128,6 +134,11 @@ class InitCommand extends Command {
             return v;
           }
         }
+      }, {
+        type: 'list',
+        name: 'projectTemplate',
+        message: 'Please select a project template',
+        choices: this.createTemplateChoice()
       }]);
       projectInfo = {
         type,

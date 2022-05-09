@@ -1,7 +1,7 @@
 module.exports = [
   {
     id: 1,
-    name: 'normal',
+    name: 'Normal',
     npmName: 'dapp-cli-template-normal',
     version: '1.0.0',
     disabled: false
