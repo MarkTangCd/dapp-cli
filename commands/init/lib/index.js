@@ -1,10 +1,13 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const inquirer = require('inquirer');
 const fse = require('fs-extra');
 const semver = require('semver');
+const userHome = require('user-home');
 const Command = require('@dapp-cli/command');
+const Package = require('@dapp-cli/package');
 const log = require('@dapp-cli/log');
 const templates = require('./templates');
 
@@ -26,7 +29,7 @@ class InitCommand extends Command {
         // 2. Download template
         log.verbose('projectInfo', projectInfo);
         this.projectInfo = projectInfo;
-        this.downloadTemplate();
+        await this.downloadTemplate();
         // 3. Install template
       }
     } catch(e) {
@@ -34,8 +37,23 @@ class InitCommand extends Command {
     }
   }
 
-  downloadTemplate() {
-    console.log(this.projectInfo);
+  async downloadTemplate() {
+    const { projectTemplate } = this.projectInfo;
+    const templateInfo = templates.find(item => item.npmName === projectTemplate);
+    const targetPath = path.resolve(userHome, '.dapp-cli-dev', 'template');
+    const storeDir = path.resolve(userHome, '.dapp-cli-dev', 'template', 'node_modules');
+    const { npmName, version } = templateInfo;
+    const templateNpm = new Package({
+      targetPath,
+      storeDir,
+      packageName: npmName,
+      packageVersion: version
+    });
+    if (! await templateNpm.exists()) {
+      await templateNpm.install();
+    } else {
+      await templateNpm.update();
+    }
   }
 
   async prepare() {
