@@ -32,18 +32,32 @@ class InitCommand extends Command {
         this.projectInfo = projectInfo;
         await this.downloadTemplate();
         // 3. Install template
+        await this.installTemplate();
       }
     } catch(e) {
       log.error(e.message);
     }
   }
 
+  async installTemplate() {
+    if (this.templateInfo) {
+      await this.installNormalTemplate();
+    } else {
+      throw new Error('The project template information does not exist!');
+    }
+  }
+
+  async installNormalTemplate() {
+    console.log('normal template')
+  }
+
   async downloadTemplate() {
     const { projectTemplate } = this.projectInfo;
-    const templateInfo = templates.find(item => item.npmName === projectTemplate);
+    const templateInfo = this.templates.find(item => item.npmName === projectTemplate);
     const targetPath = path.resolve(userHome, '.dapp-cli-dev', 'template');
     const storeDir = path.resolve(userHome, '.dapp-cli-dev', 'template', 'node_modules');
     const { npmName, version } = templateInfo;
+    this.templateInfo = templateInfo;
     const templateNpm = new Package({
       targetPath,
       storeDir,
@@ -55,27 +69,32 @@ class InitCommand extends Command {
       await sleep();
       try {
         await templateNpm.install();
-        log.success('Download template successfully');
       } catch (e) {
         throw e;
       } finally {
         spinner.stop(true);
+        if (templateNpm.exists()) {
+          log.success('Download template successfully');
+        }
       }
     } else {
       const spinner = spinnerStart('Updating the template...');
       await sleep();
       try {
         await templateNpm.update();
-        log.success('Update template successfully');
       } catch (e) {
         throw e;
       } finally {
         spinner.stop(true);
+        if (templateNpm.exists()) {
+          log.success('Update template successfully');
+        }
       }
     }
   }
 
   async prepare() {
+    this.templates = templates;
     const localPath = process.cwd();
     if(!this.isDirEmpty(localPath)) {
       let ifContinue = false;
