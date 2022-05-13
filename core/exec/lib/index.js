@@ -1,9 +1,9 @@
 'use strict';
 
-const cp = require('child_process');
 const path = require('path');
 const Package = require('@dapp-cli/package');
 const log = require('@dapp-cli/log');
+const { exec: spawn } = require('@dapp-cli/utils');
 
 const SETTINGS = {
   init: '@dapp-cli/init'
@@ -86,15 +86,6 @@ async function exec() {
   // 3. Package.getRootFile(get the entry file)
   // 4. Package.update / Package.install
 
-}
-
-function spawn(command, args, options) {
-  const win32 = process.platform === 'win32';
-
-  const cmd = win32 ? 'cmd' : command;
-  const cmdArgs = win32 ? ['/c'].concat(command, args) : args;
-
-  return cp.spawn(cmd, cmdArgs, options || {});
 }
 
 module.exports = exec;

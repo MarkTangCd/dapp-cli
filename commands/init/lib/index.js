@@ -9,7 +9,7 @@ const userHome = require('user-home');
 const Command = require('@dapp-cli/command');
 const Package = require('@dapp-cli/package');
 const log = require('@dapp-cli/log');
-const { spinnerStart, sleep } = require('@dapp-cli/utils');
+const { spinnerStart, sleep, exec: spwan } = require('@dapp-cli/utils');
 const templates = require('./templates');
 
 const TYPE_PROJECT = 'project';
@@ -48,7 +48,29 @@ class InitCommand extends Command {
   }
 
   async installNormalTemplate() {
-    console.log('normal template')
+    log.verbose('templateNpm', this.templateNpm);
+    let spinner = spinnerStart('Template being installed');
+    await sleep();
+    try {
+      const templatePath = path.resolve(this.templateNpm.cacheFilePath, 'template');
+      const targetPath = process.cwd();
+      fse.ensureDirSync(templatePath);
+      fse.ensureDirSync(targetPath);
+      fse.copySync(templatePath, targetPath);
+    } catch(e) {
+      throw e;
+    } finally {
+      spinner.stop(true);
+      log.success('Template installed successfully.');
+    }
+    // 依赖安装
+    const { installCommand, startCommand } = this.templateInfo;
+    if (installCommand && installCommand.length > 0) {
+      const cmd = installCommand[0];
+      const args = installCommand.slice(1);
+      console.log(cmd, args);
+    }
+    // 启动命令执行
   }
 
   async downloadTemplate() {
@@ -75,6 +97,7 @@ class InitCommand extends Command {
         spinner.stop(true);
         if (templateNpm.exists()) {
           log.success('Download template successfully');
+          this.templateNpm = templateNpm;
         }
       }
     } else {
@@ -88,6 +111,7 @@ class InitCommand extends Command {
         spinner.stop(true);
         if (templateNpm.exists()) {
           log.success('Update template successfully');
+          this.templateNpm = templateNpm;
         }
       }
     }
