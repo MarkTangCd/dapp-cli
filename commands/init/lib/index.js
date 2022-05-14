@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const inquirer = require('inquirer');
 const fse = require('fs-extra');
+const glob = require('glob');
+const ejs = require('ejs');
 const semver = require('semver');
 const userHome = require('user-home');
 const Command = require('@dapp-cli/command');
@@ -76,6 +78,38 @@ class InitCommand extends Command {
     return ret;
   }
 
+  async ejsRender(options) {
+    const dir = process.cwd();
+    return new Promise((resolve, reject) => {
+      glob('**', {
+        cwd: dir,
+        ignore: options.ignore || '',
+        nodir: true
+      }, (err, files) => {
+        if (err) {
+          reject(err);
+        }
+        Promise.all(files.map(file => {
+          const filePath = path.join(dir, file);
+          return new Promise((resolve2, reject2) => {
+            ejs.renderFile(filePath, {}, (err, result) => {
+              console.log(err, result);
+              if (err) {
+                reject2(err);
+              } else {
+                resolve2(result);
+              }
+            });
+          });
+        })).then(() => {
+          resolve();
+        }).catch(err => {
+          reject(err);
+        });
+      });
+    });
+  }
+
   async installNormalTemplate() {
     log.verbose('templateNpm', this.templateNpm);
     let spinner = spinnerStart('Template being installed');
@@ -93,11 +127,13 @@ class InitCommand extends Command {
       log.success('Template installed successfully.');
     }
 
+    const ignore = ['node_modules/**', 'public/**'];
+    await this.ejsRender({ ignore });
     const { installCommand, startCommand } = this.templateInfo;
     // install
-    await this.execCommand(installCommand);
+    // await this.execCommand(installCommand);
     // start
-    await this.execCommand(installCommand);
+    // await this.execCommand(installCommand);
   }
 
   async downloadTemplate() {
@@ -194,10 +230,11 @@ class InitCommand extends Command {
       choices: [{
         name: 'Project',
         value: TYPE_PROJECT
-      }, {
-        name: 'Component',
-        value: TYPE_COMPONENT
       }]
+      // }, {
+      //   name: 'Component',
+      //   value: TYPE_COMPONENT
+      // }]
     });
     log.verbose('type', type);
 
@@ -255,6 +292,10 @@ class InitCommand extends Command {
 
     }
 
+    // formattedName
+    if (projectInfo.projectName) {
+      projectInfo.formattedName = require('kebab-case')(projectInfo.projectName).replace(/^-/, '');
+    }
     return projectInfo;
   }
 

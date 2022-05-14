@@ -28,8 +28,11 @@
     "@dapp-cli/log": "file:../../utils/log",
     "@dapp-cli/package": "file:../../models/package",
     "@dapp-cli/utils": "file:../../utils/utils",
+    "ejs": "^3.1.8",
     "fs-extra": "^10.1.0",
+    "glob": "^8.0.3",
     "inquirer": "^8.2.4",
+    "kebab-case": "^1.0.1",
     "semver": "^7.3.7",
     "user-home": "3.0.0"
   },
