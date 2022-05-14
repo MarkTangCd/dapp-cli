@@ -9,11 +9,13 @@ const userHome = require('user-home');
 const Command = require('@dapp-cli/command');
 const Package = require('@dapp-cli/package');
 const log = require('@dapp-cli/log');
-const { spinnerStart, sleep, exec: spwan } = require('@dapp-cli/utils');
+const { spinnerStart, sleep, execAsync } = require('@dapp-cli/utils');
 const templates = require('./templates');
 
 const TYPE_PROJECT = 'project';
 const TYPE_COMPONENT = 'component';
+
+const WHITE_COMMAND = ['npm', 'cnpm', 'yarn', 'pnpm'];
 
 class InitCommand extends Command {
   init() {
@@ -47,6 +49,33 @@ class InitCommand extends Command {
     }
   }
 
+  checkCommand(cmd) {
+    if (WHITE_COMMAND.includes(cmd)) {
+      return cmd;
+    }
+
+    return null;
+  }
+
+  async execCommand(command, errMsg = 'Dependency package installation failed!') {
+    let ret;
+    if (command && command.length > 0) {
+      const cmd = this.checkCommand(command[0]);
+      if (!cmd) {
+        throw new Error('The command does not exist: ', command);
+      }
+      const args = command.slice(1);
+      ret = await execAsync(cmd, args, {
+        stdio: 'inherit',
+        cwd: process.cwd()
+      });
+    }
+    if (ret !== 0) {
+      throw new Error(errMsg);
+    }
+    return ret;
+  }
+
   async installNormalTemplate() {
     log.verbose('templateNpm', this.templateNpm);
     let spinner = spinnerStart('Template being installed');
@@ -63,14 +92,12 @@ class InitCommand extends Command {
       spinner.stop(true);
       log.success('Template installed successfully.');
     }
-    // 依赖安装
+
     const { installCommand, startCommand } = this.templateInfo;
-    if (installCommand && installCommand.length > 0) {
-      const cmd = installCommand[0];
-      const args = installCommand.slice(1);
-      console.log(cmd, args);
-    }
-    // 启动命令执行
+    // install
+    await this.execCommand(installCommand);
+    // start
+    await this.execCommand(installCommand);
   }
 
   async downloadTemplate() {

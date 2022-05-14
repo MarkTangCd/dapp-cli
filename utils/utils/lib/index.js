@@ -26,9 +26,22 @@ function exec(command, args, options) {
   return cp.spawn(cmd, cmdArgs, options || {});
 }
 
+function execAsync(command, args, options) {
+  return new Promise((resolve, reject) => {
+    const p = exec(command, args, options);
+    p.on('error', e => {
+      reject(e);
+    });
+    p.on('exit', c => {
+      resolve(c);
+    });
+  });
+}
+
 module.exports = {
   isObject,
   spinnerStart,
   sleep,
-  exec
+  exec,
+  execAsync
 };
