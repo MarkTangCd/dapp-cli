@@ -81,8 +81,10 @@ class Package {
           { name: this.packageName, version: latestPackageVersion }
         ]
       });
+      this.packageVersion = latestPackageVersion;
+    } else {
+      this.packageVersion = latestPackageVersion;
     }
-    this.packageVersion = latestPackageVersion;
   }
 
   // get the entry file path

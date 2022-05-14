@@ -40,6 +40,9 @@ class InitCommand extends Command {
       }
     } catch(e) {
       log.error(e.message);
+      if (process.env.LOG_LEVEL === 'verbose') {
+        console.log(e);
+      }
     }
   }
 
@@ -92,11 +95,11 @@ class InitCommand extends Command {
         Promise.all(files.map(file => {
           const filePath = path.join(dir, file);
           return new Promise((resolve2, reject2) => {
-            ejs.renderFile(filePath, {}, (err, result) => {
-              console.log(err, result);
+            ejs.renderFile(filePath, this.projectInfo, {}, (err, result) => {
               if (err) {
                 reject2(err);
               } else {
+                fse.writeFileSync(filePath, result);
                 resolve2(result);
               }
             });
@@ -127,13 +130,15 @@ class InitCommand extends Command {
       log.success('Template installed successfully.');
     }
 
-    const ignore = ['node_modules/**', 'public/**'];
+    const ignore = ['node_modules/**', 'public/**', 'packages/**'];
     await this.ejsRender({ ignore });
     const { installCommand, startCommand } = this.templateInfo;
     // install
-    // await this.execCommand(installCommand);
+    await this.execCommand(installCommand);
     // start
-    // await this.execCommand(installCommand);
+    if (startCommand && startCommand.length > 0) {
+      await this.execCommand(startCommand);
+    }
   }
 
   async downloadTemplate() {
@@ -221,7 +226,16 @@ class InitCommand extends Command {
   }
 
   async getProjectInfo() {
+    function isValidName(name) {
+      return /^[a-zA-Z]+([-][a-zA-Z][a-zA-Z0-9]*|[_][a-zA-Z][a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(name);
+    }
+
     let projectInfo = {};
+    let isProjectNameValid = false;
+    if (isValidName(this.projectName)) {
+      isProjectNameValid = true;
+      projectInfo.projectName = this.projectName;
+    }
     const { type } = await inquirer.prompt({
       type: 'list',
       name: 'type',
@@ -239,14 +253,14 @@ class InitCommand extends Command {
     log.verbose('type', type);
 
     if (type === TYPE_PROJECT) {
-      const project = await inquirer.prompt([{
+      const projectNamePrompt = {
         type: 'input',
         name: 'projectName',
         message: 'Please enter the project name',
         validate: function(v) {
           const done = this.async();
           setTimeout(function () {
-            if (!/^[a-zA-Z]+([-][a-zA-Z][a-zA-Z0-9]*|[_][a-zA-Z][a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(v)) {
+            if (!isValidName(v)) {
               done('Please enter the project name in the correct format');
               return;
             }
@@ -256,7 +270,12 @@ class InitCommand extends Command {
         filter: function(v) {
           return v;
         }
-      }, {
+      };
+      const projectPrompt = [];
+      if (!isProjectNameValid) {
+        projectPrompt.push(projectNamePrompt);
+      }
+      projectPrompt.push({
         type: 'input',
         name: 'projectVersion',
         message: 'Please enter the project version number',
@@ -283,8 +302,10 @@ class InitCommand extends Command {
         name: 'projectTemplate',
         message: 'Please select a project template',
         choices: this.createTemplateChoice()
-      }]);
+      });
+      const project = await inquirer.prompt(projectPrompt);
       projectInfo = {
+        ...projectInfo,
         type,
         ...project
       }
