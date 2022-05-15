@@ -1,5 +1,5 @@
 {
-  "name": "get-npm-info",
+  "name": "@dapp-cli/get-npm-info",
   "version": "0.0.1",
   "description": "get npm info",
   "author": "MarkTang <MarkTangCd@hotmail.com>",
