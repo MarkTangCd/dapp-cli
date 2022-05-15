@@ -41,7 +41,7 @@ Create workspace:
 ```bash
 dapp init
 ```
-![dapp-cli-flow-3.gif](https://s2.loli.net/2022/05/15/cmUQz15Xo8FwgKa.gif)
+<img src="https://s2.loli.net/2022/05/15/cmUQz15Xo8FwgKa.gif" style="margin: 0 auto 40px;" width="100%" />
 
 ```bash
 dapp -h
