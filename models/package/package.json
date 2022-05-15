@@ -24,9 +24,9 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@dapp-cli/format-path": "file:../../utils/format-path",
-    "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
-    "@dapp-cli/utils": "file:../../utils/utils",
+    "@dapp-cli/format-path": "^1.0.5",
+    "@dapp-cli/get-npm-info": "^1.0.5",
+    "@dapp-cli/utils": "^1.0.5",
     "fs-extra": "^10.1.0",
     "npminstall": "^6.1.0",
     "path-exists": "^4.0.0",
@@ -34,5 +34,6 @@
   },
   "bugs": {
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
-  }
+  },
+  "gitHead": "822b3bfe67703d4342d440c2a78fa52f442e5aae"
 }

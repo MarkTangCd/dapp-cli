@@ -27,8 +27,9 @@
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
   },
   "dependencies": {
-    "@dapp-cli/log": "file:../../utils/log",
+    "@dapp-cli/log": "^1.0.5",
     "colors": "^1.4.0",
     "semver": "^7.3.7"
-  }
+  },
+  "gitHead": "822b3bfe67703d4342d440c2a78fa52f442e5aae"
 }

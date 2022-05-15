@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@dapp-cli/exec": "^1.0.5",
-    "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
+    "@dapp-cli/get-npm-info": "^1.0.5",
     "@dapp-cli/init": "^1.0.5",
     "@dapp-cli/log": "^1.0.5",
     "colors": "^1.4.0",
@@ -33,7 +33,7 @@
     "semver": "^7.3.7",
     "user-home": "^3.0.0"
   },
-  "gitHead": "377880938cdf906c42c6c8f31a445691bd5a839d",
+  "gitHead": "822b3bfe67703d4342d440c2a78fa52f442e5aae",
   "publishConfig": {
     "access": "public"
   },
