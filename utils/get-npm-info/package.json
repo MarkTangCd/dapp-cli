@@ -1,6 +1,6 @@
 {
   "name": "@dapp-cli/get-npm-info",
-  "version": "0.0.1",
+  "version": "1.0.5",
   "description": "get npm info",
   "author": "MarkTang <MarkTangCd@hotmail.com>",
   "homepage": "https://github.com/MarkTangCd/dapp-cli#readme",
