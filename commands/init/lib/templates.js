@@ -15,7 +15,15 @@ module.exports = [
     version: 'latest',
     disabled: false,
     installCommand: ["yarn"],
-    startCommand: []
+    startCommand: ["yarn", "run", "dev"]
   },
-
+  {
+    id: 3,
+    name: 'Dapp: Moralis-Marketplace',
+    npmName: 'dapp-cli-template-moralis-marketplace',
+    version: 'latest',
+    disabled: false,
+    installCommand: ["yarn"],
+    startCommand: []
+  }
 ]
