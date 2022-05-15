@@ -1,6 +1,6 @@
 {
   "name": "@dapp-cli/cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "dapp-cli core",
   "author": "MarkTang <MarkTangCd@hotmail.com>",
   "license": "ISC",
@@ -21,7 +21,7 @@
   "dependencies": {
     "@dapp-cli/exec": "^0.0.1",
     "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
-    "@dapp-cli/init": "^1.0.3",
+    "@dapp-cli/init": "^1.0.4",
     "@dapp-cli/log": "^0.0.1",
     "colors": "^1.4.0",
     "commander": "^9.2.0",
