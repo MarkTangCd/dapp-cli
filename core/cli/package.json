@@ -1,6 +1,6 @@
 {
   "name": "@dapp-cli/cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "dapp-cli core",
   "author": "MarkTang <MarkTangCd@hotmail.com>",
   "license": "ISC",
@@ -19,10 +19,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@dapp-cli/exec": "^1.0.5",
-    "@dapp-cli/get-npm-info": "^1.0.5",
-    "@dapp-cli/init": "^1.0.5",
-    "@dapp-cli/log": "^1.0.5",
+    "@dapp-cli/exec": "^1.0.6",
+    "@dapp-cli/get-npm-info": "^1.0.6",
+    "@dapp-cli/init": "^1.0.6",
+    "@dapp-cli/log": "^1.0.6",
     "colors": "^1.4.0",
     "commander": "^9.2.0",
     "dotenv": "^16.0.0",

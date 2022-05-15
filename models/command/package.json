@@ -1,6 +1,6 @@
 {
   "name": "@dapp-cli/command",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "dapp-cli command",
   "author": "Mark Tang <MarkTangCd@hotmail.com>",
   "homepage": "https://github.com/MarkTangCd/dapp-cli#readme",
@@ -27,7 +27,7 @@
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
   },
   "dependencies": {
-    "@dapp-cli/log": "^1.0.5",
+    "@dapp-cli/log": "^1.0.6",
     "colors": "^1.4.0",
     "semver": "^7.3.7"
   },

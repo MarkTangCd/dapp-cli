@@ -1,6 +1,6 @@
 {
   "name": "@dapp-cli/package",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "dapp-cli npm modules",
   "author": "Mark Tang <MarkTangCd@hotmail.com>",
   "homepage": "https://github.com/MarkTangCd/dapp-cli#readme",
@@ -24,9 +24,9 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@dapp-cli/format-path": "^1.0.5",
-    "@dapp-cli/get-npm-info": "^1.0.5",
-    "@dapp-cli/utils": "^1.0.5",
+    "@dapp-cli/format-path": "^1.0.6",
+    "@dapp-cli/get-npm-info": "^1.0.6",
+    "@dapp-cli/utils": "^1.0.6",
     "fs-extra": "^10.1.0",
     "npminstall": "^6.1.0",
     "path-exists": "^4.0.0",
