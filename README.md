@@ -7,6 +7,7 @@
   </h4>
   <p>
     Dapp CLI will help developers quickly build a base template of Dapp and Smart Contract project.
+    <br>
     Different project templates for various categories will be updated continuously.
   </p>
 </div>
@@ -41,7 +42,7 @@ Create workspace:
 ```bash
 dapp init
 ```
-<img src="https://s2.loli.net/2022/05/15/cmUQz15Xo8FwgKa.gif" style="margin: 0 auto 40px;" width="100%" />
+![dapp-cli-flow.gif](https://s2.loli.net/2022/05/15/8rA7NolMWLZEmxF.gif)
 
 ```bash
 dapp -h
