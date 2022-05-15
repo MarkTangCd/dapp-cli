@@ -30,6 +30,7 @@ Writing...
 Install Dapp CLI.
 
 ```bash
+npm install -g yarn
 npm install -g dapp-cli
 ```
 
@@ -40,3 +41,9 @@ Create workspace:
 ```bash
 dapp init
 ```
+![dapp-cli-flow-3.gif](https://s2.loli.net/2022/05/15/cmUQz15Xo8FwgKa.gif)
+
+```bash
+dapp -h
+```
+![Help](https://s2.loli.net/2022/05/15/Wl7N8KMAdmUbRto.png)
