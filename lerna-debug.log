@@ -1,6 +1,10 @@
-55 error Error: Command failed with exit code 128: git tag v1.0.1 -m v1.0.1
-55 error fatal: tag 'v1.0.1' already exists
-55 error     at makeError (/usr/local/lib/node_modules/pnpm-global/5/node_modules/.pnpm/execa@5.1.1/node_modules/execa/lib/error.js:60:11)
-55 error     at handlePromise (/usr/local/lib/node_modules/pnpm-global/5/node_modules/.pnpm/execa@5.1.1/node_modules/execa/index.js:118:26)
-55 error     at processTicksAndRejections (internal/process/task_queues.js:95:5)
-55 error     at async Promise.all (index 0)
+54 error Error: Command failed with exit code 1: git commit -m v1.0.3
+54 error On branch main
+54 error Your branch is ahead of 'origin/main' by 1 commit.
+54 error   (use "git push" to publish your local commits)
+54 error
+54 error nothing to commit, working tree clean
+54 error     at makeError (/usr/local/lib/node_modules/pnpm-global/5/node_modules/.pnpm/execa@5.1.1/node_modules/execa/lib/error.js:60:11)
+54 error     at handlePromise (/usr/local/lib/node_modules/pnpm-global/5/node_modules/.pnpm/execa@5.1.1/node_modules/execa/index.js:118:26)
+54 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+54 error     at async Promise.all (index 0)
