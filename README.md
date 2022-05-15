@@ -32,7 +32,7 @@ Install Dapp CLI.
 
 ```bash
 npm install -g yarn
-npm install -g dapp-cli
+npm install -g @dapp-cli/cli
 ```
 
 ## Quick Start
