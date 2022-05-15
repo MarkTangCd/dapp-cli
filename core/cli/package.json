@@ -19,10 +19,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@dapp-cli/exec": "file:../exec",
+    "@dapp-cli/exec": "^0.0.1",
     "@dapp-cli/get-npm-info": "file:../../utils/get-npm-info",
-    "@dapp-cli/init": "file:../../commands/init",
-    "@dapp-cli/log": "file:../../utils/log",
+    "@dapp-cli/init": "^1.0.2",
+    "@dapp-cli/log": "^0.0.1",
     "colors": "^1.4.0",
     "commander": "^9.2.0",
     "dotenv": "^16.0.0",
@@ -33,7 +33,7 @@
     "semver": "^7.3.7",
     "user-home": "^3.0.0"
   },
-  "gitHead": "",
+  "gitHead": "bc603ef0385958f8bac38764d3368d14d1eace6a",
   "publishConfig": {
     "access": "public"
   },

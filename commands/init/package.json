@@ -24,10 +24,10 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@dapp-cli/command": "file:../../models/command",
-    "@dapp-cli/log": "file:../../utils/log",
-    "@dapp-cli/package": "file:../../models/package",
-    "@dapp-cli/utils": "file:../../utils/utils",
+    "@dapp-cli/command": "^0.0.1",
+    "@dapp-cli/log": "^0.0.1",
+    "@dapp-cli/package": "^0.0.1",
+    "@dapp-cli/utils": "^0.0.1",
     "ejs": "^3.1.8",
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
@@ -38,5 +38,6 @@
   },
   "bugs": {
     "url": "https://github.com/MarkTangCd/dapp-cli/issues"
-  }
+  },
+  "gitHead": "bc603ef0385958f8bac38764d3368d14d1eace6a"
 }

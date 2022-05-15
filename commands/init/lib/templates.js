@@ -10,11 +10,11 @@ module.exports = [
   },
   {
     id: 2,
-    name: 'Dapp: NFT-Market',
-    npmName: 'dapp-cli-template-nft-market',
+    name: 'Dapp: Polygon-Marketplace',
+    npmName: 'dapp-cli-template-polygon-marketplace',
     version: 'latest',
-    disabled: true,
-    installCommand: ["npm", "install"],
+    disabled: false,
+    installCommand: ["yarn"],
     startCommand: []
   },
 
