@@ -33,7 +33,7 @@
     "semver": "^7.3.7",
     "user-home": "^3.0.0"
   },
-  "gitHead": "bc603ef0385958f8bac38764d3368d14d1eace6a",
+  "gitHead": "377880938cdf906c42c6c8f31a445691bd5a839d",
   "publishConfig": {
     "access": "public"
   },
