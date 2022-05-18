@@ -33,8 +33,8 @@ function registerCommand() {
     .name(Object.keys(pkg.bin)[0])
     .usage('<command> [options]')
     .version(pkg.version)
-    .option('-d, --debug', 'Is debug mode on?', false);
-    // .option('-tp, --targetPath <targetPath>', 'Is the local debug file path specified?', '');
+    .option('-d, --debug', 'Is debug mode on?', false)
+    .option('-tp, --targetPath <targetPath>', 'Is the local debug file path specified?', '');
 
   program
     .command('init [projectName]')

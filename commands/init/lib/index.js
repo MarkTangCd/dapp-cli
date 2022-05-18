@@ -129,8 +129,9 @@ class InitCommand extends Command {
       spinner.stop(true);
       log.success('Template installed successfully.');
     }
-
-    const ignore = ['node_modules/**', 'public/**', 'packages/**'];
+    console.log(this.templateInfo);
+    const templateIgnore = this.templateInfo.ignore || [];
+    const ignore = ['node_modules/**', ...templateIgnore];
     await this.ejsRender({ ignore });
     const { installCommand, startCommand } = this.templateInfo;
     // install
@@ -244,13 +245,14 @@ class InitCommand extends Command {
       choices: [{
         name: 'Project',
         value: TYPE_PROJECT
+      },
+      {
+        name: 'Component',
+        value: TYPE_COMPONENT
       }]
-      // }, {
-      //   name: 'Component',
-      //   value: TYPE_COMPONENT
-      // }]
     });
     log.verbose('type', type);
+    this.templates = this.templates.filter(template => template.tag.includes(type));
 
     if (type === TYPE_PROJECT) {
       const projectNamePrompt = {

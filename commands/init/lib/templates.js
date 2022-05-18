@@ -6,7 +6,9 @@ module.exports = [
     version: 'latest',
     disabled: false,
     installCommand: ["yarn"],
-    startCommand: []
+    startCommand: [],
+    tag: ["project"],
+    ignore: ["**/packages/**"]
   },
   {
     id: 2,
@@ -15,7 +17,9 @@ module.exports = [
     version: 'latest',
     disabled: false,
     installCommand: ["yarn"],
-    startCommand: ["yarn", "run", "dev"]
+    startCommand: ["yarn", "run", "dev"],
+    tag: ["project"],
+    ignore: []
   },
   {
     id: 3,
@@ -24,6 +28,19 @@ module.exports = [
     version: 'latest',
     disabled: false,
     installCommand: ["yarn"],
-    startCommand: []
+    startCommand: [],
+    tag: ["project"],
+    ignore: ["**/Truffle/**"]
+  },
+  {
+    id: 4,
+    name: 'Test-Component',
+    npmName: 'dapp-cli-component-test',
+    version: 'latest',
+    disabled: false,
+    installCommand: ["yarn"],
+    startCommand: [],
+    tag: ["component"],
+    ignore: []
   }
 ]
