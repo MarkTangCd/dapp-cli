@@ -129,7 +129,6 @@ class InitCommand extends Command {
       spinner.stop(true);
       log.success('Template installed successfully.');
     }
-    console.log(this.templateInfo);
     const templateIgnore = this.templateInfo.ignore || [];
     const ignore = ['node_modules/**', ...templateIgnore];
     await this.ejsRender({ ignore });
@@ -253,58 +252,59 @@ class InitCommand extends Command {
     });
     log.verbose('type', type);
     this.templates = this.templates.filter(template => template.tag.includes(type));
+    const title = type === TYPE_PROJECT ? 'project' : 'component';
 
-    if (type === TYPE_PROJECT) {
-      const projectNamePrompt = {
-        type: 'input',
-        name: 'projectName',
-        message: 'Please enter the project name',
-        validate: function(v) {
-          const done = this.async();
-          setTimeout(function () {
-            if (!isValidName(v)) {
-              done('Please enter the project name in the correct format');
-              return;
-            }
-            done(null, true);
-          }, 0);
-        },
-        filter: function(v) {
+    const projectNamePrompt = {
+      type: 'input',
+      name: 'projectName',
+      message: `Please enter the ${title} name`,
+      validate: function(v) {
+        const done = this.async();
+        setTimeout(function () {
+          if (!isValidName(v)) {
+            done(`Please enter the ${title} name in the correct format`);
+            return;
+          }
+          done(null, true);
+        }, 0);
+      },
+      filter: function(v) {
+        return v;
+      }
+    };
+    const projectPrompt = [];
+    if (!isProjectNameValid) {
+      projectPrompt.push(projectNamePrompt);
+    }
+    projectPrompt.push({
+      type: 'input',
+      name: 'projectVersion',
+      message: `Please enter the ${title} version number`,
+      default: '1.0.0',
+      validate: function(v) {
+        const done = this.async();
+        setTimeout(function () {
+          if (!(!!semver.valid(v))) {
+            done(`Please enter the ${title} version number in the correct format`);
+            return;
+          }
+          done(null, true);
+        }, 0);
+      },
+      filter: function(v) {
+        if (!!semver.valid(v)) {
+          return semver.valid(v);
+        } else {
           return v;
         }
-      };
-      const projectPrompt = [];
-      if (!isProjectNameValid) {
-        projectPrompt.push(projectNamePrompt);
       }
-      projectPrompt.push({
-        type: 'input',
-        name: 'projectVersion',
-        message: 'Please enter the project version number',
-        default: '1.0.0',
-        validate: function(v) {
-          const done = this.async();
-          setTimeout(function () {
-            if (!(!!semver.valid(v))) {
-              done('Please enter the project version number in the correct format');
-              return;
-            }
-            done(null, true);
-          }, 0);
-        },
-        filter: function(v) {
-          if (!!semver.valid(v)) {
-            return semver.valid(v);
-          } else {
-            return v;
-          }
-        }
-      }, {
-        type: 'list',
-        name: 'projectTemplate',
-        message: 'Please select a project template',
-        choices: this.createTemplateChoice()
-      });
+    }, {
+      type: 'list',
+      name: 'projectTemplate',
+      message: `Please select a ${title} template`,
+      choices: this.createTemplateChoice()
+    });
+    if (type === TYPE_PROJECT) {
       const project = await inquirer.prompt(projectPrompt);
       projectInfo = {
         ...projectInfo,
@@ -312,12 +312,36 @@ class InitCommand extends Command {
         ...project
       }
     } else if (type === TYPE_COMPONENT) {
-
+      const descriptionPrompt = {
+        type: 'input',
+        name: 'componentDescription',
+        message: 'Please enter the component description',
+        validate: function(v) {
+          const done = this.async();
+          setTimeout(function () {
+            if (!v) {
+              done('Please enter the component description');
+              return;
+            }
+            done(null, true);
+          }, 0);
+        }
+      };
+      projectPrompt.push(descriptionPrompt);
+      const project = await inquirer.prompt(projectPrompt);
+      projectInfo = {
+        ...projectInfo,
+        type,
+        ...project
+      }
     }
 
     // formattedName
     if (projectInfo.projectName) {
       projectInfo.formattedName = require('kebab-case')(projectInfo.projectName).replace(/^-/, '');
+    }
+    if (projectPrompt.componentDescription) {
+      projectInfo.description = projectInfo.componentDescription;
     }
     return projectInfo;
   }
